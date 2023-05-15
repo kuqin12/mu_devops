@@ -24,6 +24,10 @@ resources:
       name: microsoft/mu_devops
       ref: refs/tags/{{ sync_version.mu_devops }}
 
+parameters:
+- name: build_matrix
+  type: object
+
 variables:
 - group: architectures-x86-64
 - group: tool-chain-windows-visual-studio-latest
@@ -35,3 +39,6 @@ jobs:
     extra_build_args: CODE_COVERAGE=TRUE
     tool_chain_tag: $(tool_chain_tag)
     vm_image: $(vm_image)
+    pool_name: $(pool_name)
+    os_type: Windows_NT
+    build_matrix: ${{ parameters.build_matrix }}

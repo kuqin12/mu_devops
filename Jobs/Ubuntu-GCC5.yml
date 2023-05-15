@@ -27,6 +27,10 @@ resources:
     - container: linux-gcc
       image: {{ sync_version.linux_build_container }}
 
+parameters:
+- name: build_matrix
+  type: object
+
 variables:
 - group: architectures-arm-64-x86-64
 - group: tool-chain-ubuntu-gcc
@@ -36,10 +40,9 @@ jobs:
   parameters:
     arch_list: $(arch_list)
     extra_build_args: CODE_COVERAGE=TRUE
-    extra_install_step:
-    - script: |
-              sudo dnf install --assumeyes mingw64-gcc
-      displayName: Install Windows Resource Compiler for Linux
     tool_chain_tag: 'GCC5'
     vm_image: $(vm_image)
+    pool_name: $(pool_name)
     container_image: linux-gcc
+    os_type: Linux
+    build_matrix: ${{ parameters.build_matrix }}
